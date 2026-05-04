@@ -15,7 +15,6 @@ Run a fleet of AI coding sessions from a single Rust TUI — organized into agen
 </div>
 
 > **Source is proprietary.** This repository hosts only the official pre-built binaries.
-> For commercial licensing, embedding, or redistribution: **colton.j.orr@gmail.com**
 
 ---
 
