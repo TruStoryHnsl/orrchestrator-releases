@@ -59,13 +59,43 @@ The **Design > Intentions** panel is the ideas vault. You write raw — half-tho
   <img src="assets/screenshots/03-design-intentions.png" alt="Design > Intentions — ideas vault with progress tracking" width="80%" />
 </div>
 
-### Workforces are markdown
+### Bespoke, team-based workforces
 
-Teams, workflows, agents, skills, tools, MCP servers, models, harnesses — all defined in plain markdown with structured frontmatter and pipe-delimited step tables. The **Design > Workforce** panel is a full editor over them. The pipeline below is the built-in `DEVELOP_FEATURE` workflow: PM → Resource Optimizer → Lead Architect → Developer fleet → Feature Tester → Penetration Tester → Repository Manager.
+This is the heart of orrchestrator. A **workforce** is a hand-built team of agents wired together as a step pipeline — defined in plain markdown, edited live in the **Design > Workforce** panel, and dispatched mechanically by the hypervisor. No black-box orchestration, no LLM "deciding" who does what. You author the team, you author the steps, the dispatcher just runs them.
 
 <div align="center">
   <img src="assets/screenshots/04-design-workforce-teams.png" alt="Design > Workforce > Teams — DEVELOP_FEATURE step pipeline" width="92%" />
 </div>
+
+The screenshot above shows the built-in `DEVELOP_FEATURE` operation as the editor renders it. Underneath, it's just a markdown file with a pipe-delimited step table:
+
+```markdown
+## DEVELOP FEATURE
+
+Trigger: unprocessed instructions exist in the project instruction_inbox.md
+
+### Order of Operations
+#### <index> | <agent> | <tool or skill> | <operation>
+
+1 | Project Manager     | skill:synthesize_instructions | incorporate inbox into plan
+2 | Resource Optimizer  | skill:assess_tasks            | annotate tasks with model tier + harness
+3 | Project Manager     | skill:delegate_work           | distribute tasks to agents
+4 | Developer           | *                             | execute coding tasks
+4 | Researcher          | *                             | research relevant tech
+4 | Software Engineer   | *                             | design architecture
+4 | Feature Tester      | skill:test-design             | design verification tests
+5 | Penetration Tester  | skill:pen-test                | exploit attempts
+5 | Beta Tester         | skill:go-nuts                 | break-it-aggressively pass
+6 | Project Manager     | skill:dev-loop                | iterate until testers pass
+7 | Repository Manager  | skill:commit-review           | git packaging + branch strategy
+8 | Project Manager     | skill:log-dev                 | write devlog
+9 | Repository Manager  | mcp:github                    | commit + tag
+10| Repository Manager  | skill:merge-to-main           | mandatory merge-back; escalate on conflict
+```
+
+Same-index rows run **in parallel** — index `4` above spawns Developer + Researcher + Software Engineer + Feature Tester concurrently, each in its own isolated session. The dispatcher reads the table, spawns agents, pipes compressed output between steps, and enforces context isolation. That's the entire orchestration logic.
+
+Eight workforce templates ship out of the box — `general_software_development`, `commercial_software_development`, `personal_tech_support`, plus tier-shaped variants (`enterprise_tier`, `mid_tier`, `local_tier`). Copy one, swap the agent roster or step table, save. The `n` key in the panel scaffolds a fresh workforce from a template.
 
 ### Agent library
 
@@ -96,6 +126,41 @@ The **Design > Plans** panel is a unified `PLAN.md` browser across every project
 | **Publish** | Release lifecycle — packaging, distribution, compliance, marketing, history |
 
 A web node-editor mirror is also available (`orrchestrator --webedit`) for terminal-averse workflows, and an optional native egui window (`--egui`) when built with that feature.
+
+---
+
+## MCP server
+
+orrchestrator ships as an **MCP (Model Context Protocol) server** as well as a TUI. Any MCP-aware client — Claude Code, Codex, Gemini CLI, the Anthropic SDK — can drive the hypervisor directly, fire workforces, and read project state without going through the terminal UI.
+
+The exposed tool surface, grouped by purpose:
+
+| Group | Tools | What it lets a client do |
+|---|---|---|
+| **Workforce dispatch** | `develop_feature`, `assess_development`, `instruction_intake`, `continue_intake`, `incorporate_inbox` | Fire a full team operation against a project — the same workflows you see in Design > Workforce |
+| **Direct invocation** | `agent_invoke`, `skill_invoke` | Call a single agent or skill from the library on an ad-hoc task |
+| **Capability forge** | `create_agent`, `create_skill`, `create_tool`, `create_workflow` | Generate new library entries from templates — see below |
+| **Project + library reads** | `project_state`, `codebase_brief`, `library_search`, `library_get`, `list_agents`, `list_skills`, `module_api` | Inspect what's on disk without parsing files yourself |
+| **Inbox** | `inbox_append` | Push an instruction into a project's intake queue |
+| **Workflow lifecycle** | `workflow_init`, `workflow_status`, `workflow_cluster`, `workflow_compress` | Bootstrap a workflow run, poll status, cluster tasks by file overlap, compress agent output |
+| **Remote sessions** | `remote_list_hosts`, `remote_discover_sessions`, `remote_list_sessions`, `remote_spawn_session`, `remote_kill_session` | Reach across a mesh of machines and manage sessions on each |
+
+A typical client flow: `instruction_intake` → user audits the optimized output side-by-side in the TUI → `incorporate_inbox` writes it into the target project → `develop_feature` runs the team against it.
+
+---
+
+## Capability forge
+
+The `create_*` MCP tools — and equivalent skills inside the TUI — turn capability authoring into a first-class operation. Every agent, skill, tool, and workforce in the library is a single markdown file (with YAML frontmatter for typed fields and free-form prose for instructions). The forge scaffolds a typed template so additions stay schema-clean:
+
+| Forge tool | What it scaffolds |
+|---|---|
+| `create_agent` | Agent profile — department, role, capabilities, preferred backend, behavioral instructions, "what you never do" |
+| `create_skill` | Skill — typed declaration, domain, usage notes, prompt body the calling agent receives |
+| `create_tool` | Tool — deterministic shell command with arg schema and required dependencies; no LLM judgment |
+| `create_workflow` | Workforce — agent roster table, connection graph, list of operations the team participates in |
+
+The intent: when an agent (or you) discovers a missing capability mid-pipeline, the dispatcher can extend itself. Author the new piece, drop it in the library, the next workflow pass picks it up. Markdown-as-source means everything is diffable, version-controllable, and shareable across projects.
 
 ---
 
