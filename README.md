@@ -2,7 +2,6 @@
 
 Pre-built binaries of **orrchestrator**, an AI-powered software development hypervisor: a Rust TUI that runs many parallel coding sessions, organizes them into agent workforces, and routes raw user thought into a managed dev pipeline.
 
-> **The source for orrchestrator is proprietary and not publicly available.**
 > This repository hosts only the official compiled binaries.
 
 ## What it is
