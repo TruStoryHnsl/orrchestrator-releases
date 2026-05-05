@@ -23,7 +23,7 @@ Run a fleet of AI coding sessions from a single Rust TUI — organized into agen
 A single ~5 MB Rust binary that sits between you and the army of AI coding sessions you'd otherwise be juggling by hand. orrchestrator manages parallel sessions, dispatches structured agent workforces, routes raw stream-of-consciousness input into project-scoped pipelines, and gives you one TUI to see all of it.
 
 <div align="center">
-  <img src="assets/screenshots/01-oversee-projects.png" alt="Oversee panel — multi-project tracker" width="92%" />
+  <img src="assets/screenshots/01-oversee-projects.png" alt="Oversee panel — multi-project tracker" height="420" />
   <p><em>Oversee — every project, every session, every state, in one view.</em></p>
 </div>
 
@@ -47,7 +47,7 @@ Coding with one AI assistant is fast. Coding with ten in parallel is faster — 
 Every project on disk is tracked in the **Oversee** panel — git status, sessions, recent activity, expandable file browser, all in one tab.
 
 <div align="center">
-  <img src="assets/screenshots/02-oversee-admin-expanded.png" alt="Oversee — file browser expanded into a project subtree" width="80%" />
+  <img src="assets/screenshots/02-oversee-admin-expanded.png" alt="Oversee — file browser expanded into a project subtree" height="440" />
 </div>
 
 ### Stream-of-consciousness intake
@@ -55,7 +55,7 @@ Every project on disk is tracked in the **Oversee** panel — git status, sessio
 The **Design > Intentions** panel is the ideas vault. You write raw — half-thoughts, feedback, "this should…", whatever. A COO agent optimizes each entry into discrete instructions; you audit the side-by-side diff; only then does it route to the project's instruction inbox. Each idea tracks a 0–100% progress gradient as the work lands.
 
 <div align="center">
-  <img src="assets/screenshots/03-design-intentions.png" alt="Design > Intentions — ideas vault with progress tracking" width="80%" />
+  <img src="assets/screenshots/03-design-intentions.png" alt="Design > Intentions — ideas vault with progress tracking" height="440" />
 </div>
 
 ### Bespoke, team-based workforces
@@ -63,7 +63,7 @@ The **Design > Intentions** panel is the ideas vault. You write raw — half-tho
 This is the heart of orrchestrator. A **workforce** is a hand-built team of agents wired together as a step pipeline — defined in plain markdown, edited live in the **Design > Workforce** panel, and dispatched mechanically by the hypervisor. No black-box orchestration, no LLM "deciding" who does what. You author the team, you author the steps, the dispatcher just runs them.
 
 <div align="center">
-  <img src="assets/screenshots/04-design-workforce-teams.png" alt="Design > Workforce > Teams — DEVELOP_FEATURE step pipeline" width="92%" />
+  <img src="assets/screenshots/04-design-workforce-teams.png" alt="Design > Workforce > Teams — DEVELOP_FEATURE step pipeline" height="520" />
 </div>
 
 The screenshot above shows the built-in `DEVELOP_FEATURE` operation as the editor renders it. Underneath, it's just a markdown file with a pipe-delimited step table:
@@ -101,7 +101,7 @@ Eight workforce templates ship out of the box — `general_software_development`
 21 agent profiles ship in the library — across Admin, Engineering, QA, DevOps, Marketing, and Legal departments. Each agent is a single markdown file: triggers, capabilities, tone, escalation rules, model tier.
 
 <div align="center">
-  <img src="assets/screenshots/05-design-library-agents.png" alt="Design > Library > Agents — Feature Tester profile" width="92%" />
+  <img src="assets/screenshots/05-design-library-agents.png" alt="Design > Library > Agents — Feature Tester profile" height="520" />
 </div>
 
 ### Cross-project plans
@@ -109,7 +109,7 @@ Eight workforce templates ship out of the box — `general_software_development`
 The **Design > Plans** panel is a unified `PLAN.md` browser across every project on disk. Expand a phase, mark a feature verified, cycle status, deprecate — changes persist directly to the source `PLAN.md`.
 
 <div align="center">
-  <img src="assets/screenshots/06-design-plans.png" alt="Design > Plans — concord PLAN.md tree" width="80%" />
+  <img src="assets/screenshots/06-design-plans.png" alt="Design > Plans — concord PLAN.md tree" height="520" />
 </div>
 
 ---
